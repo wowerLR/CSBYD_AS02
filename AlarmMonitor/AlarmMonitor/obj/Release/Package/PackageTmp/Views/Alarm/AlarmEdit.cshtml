@@ -1,0 +1,391 @@
+﻿<link href="~/bower_components/pagination/pagination.css" rel="stylesheet" />
+<link href="~/bower_components/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet" />
+<link href="~/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css" rel="stylesheet" />
+<div ng-app="myApp" ng-controller="AlarmEditCtrl" ng-init="init()">
+    <section class="content-header sub_head">
+        <h1>
+            暗灯编辑
+            @*<small> 暗灯编辑</small>*@
+        </h1>
+        <ol class="breadcrumb">
+            <li>
+                <a href="#">
+                    <i class="fa fa-dashboard"></i>
+                    主页
+                </a>
+            </li>
+            <li class="active">
+                <a href="">暗灯编辑</a>
+            </li>
+            @*<li class="active">暗灯编辑</li>*@
+        </ol>
+    </section>
+    <section class="content">
+        <div class="row">
+
+            <div class="col-xs-12">
+                @*<div class="btn-toolbar">
+                        <button class="btn btn-primary margin" onclick="AddComment()">增加</button>
+                        <button class="btn btn-primary margin" onclick="ModifyComment()">修改</button>
+                        <button class="btn btn-primary margin" onclick="DeleteComment()">删除</button>
+                    </div>*@
+                <div class="box box-danger">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">筛选</h3>
+                    </div>
+                    <div class="box-body">
+                        <div class="row">
+
+                            <div class="col-xs-6">
+                                <label>时间段选择:</label>
+                                <div class="input-group">
+
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-clock-o"></i>
+                                    </div>
+                                    <input type="text" class="form-control pull-right" id="reservationtime">
+                                </div>
+                            </div>
+                            <div class="col-xs-3">
+                                <label>呼叫类型:</label>
+                                <select class="form-control" ng-init="Filter.Alarm_class = AlarmClasses[0]" ng-model="Filter.Alarm_class" ng-options="x for x in AlarmClasses"></select>
+                            </div>
+                            <div class="col-xs-3">
+                                <label>报警区域:</label>
+                                <select class="form-control" ng-init="Filter.Alarm_area = AlarmAreas[0]" ng-model="Filter.Alarm_area" ng-options="x for x in AlarmAreas"></select>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.box-body -->
+                    <div class="box-footer">
+                        @*<button type="submit" class="btn btn-default">清除</button>*@
+                        <button type="submit" class="btn btn-info pull-right" ng-click="search()">搜索</button>
+                    </div>
+                </div>
+                <div class="col-xs-12">
+                    <div class="box">
+                        <div class="box-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover table-striped">
+                                    <caption>暗灯编辑表格</caption>
+                                    <thead>
+                                        <tr>
+                                            <th>开始时间</th>
+                                            <th>结束时间</th>
+                                            <th>持续时间</th>
+                                            <th>停线原因</th>
+                                            <th>责任部门</th>
+                                            <th>责任类型</th>
+                                            <th>停线工位</th>
+                                            <th>位置信息</th>
+                                            <th>呼叫类型</th>
+                                            <th>停线区域</th>
+                                            <th>操作</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="x in dataTabls">
+                                            <td>{{ x.Start_timeStr }}</td>
+                                            <td>{{ x.End_timeStr }}</td>
+                                            <td>{{ x.DurationStr }}</td>
+                                            <td>{{ x.Reason }}</td>
+                                            <td>{{ x.Responsible }}</td>
+                                            <td>{{ x.Division_of_respon }}</td>
+                                            <td>{{ x.Station }}</td>
+                                            <td>{{ x.Position }}</td>
+                                            <td>{{ x.Alarm_class }}</td>
+                                            <td>{{ x.Alarm_area }}</td>
+                                            <td>
+                                                <button type="button" class="btn btn-info" ng-click="Edit(x,$index+1)" data-toggle="modal" data-target="#modal-default">编辑</button>
+                                                <button type="button" class="btn btn-danger" ng-click="Remove(x, $index+1)">删除</button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="box-footer">
+                            <div class="m-style M-box11"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="modal fade" id="modal-default">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">暗灯编辑</h4>
+                </div>
+                <div class="modal-body row">
+                    <div class="col-xs-12">
+
+                        <div class="form-group">
+                            <label>时间段选择:</label>
+                            <div class="input-group">
+
+                                <div class="input-group-addon">
+                                    <i class="fa fa-clock-o"></i>
+                                </div>
+                                <input type="text" class="form-control pull-right" id="dateRange">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">停线原因</label>
+                            <input class="form-control" ng-model="AlarmEidt.Reason" placeholder="停线原因">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">责任部门</label>
+                            <select class="form-control" ng-model="AlarmEidt.Responsible" ng-options="x for x in Responsibles"></select>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">责任类型</label>
+                            <select class="form-control" ng-model="AlarmEidt.Division_of_respon" ng-options="x for x in Division_of_respons"></select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary" ng-click="SaveChange()">保存修改</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+</div>
+
+
+<script src="~/bower_components/pagination/jquery.pagination.js"></script>
+@*<script src="//cdn.bootcss.com/angular.js/1.5.8/angular.min.js"></script>*@
+<script src="~/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+<script src="~/bower_components/moment/min/moment.min.js"></script>
+<script src="~/bower_components/bootstrap-daterangepicker/daterangepicker.js"></script>
+<script src="~/Scripts/bootbox.js"></script>
+@*<script src="~/Script/wwt.js"></script>*@
+<script>
+    var app = angular.module('myApp', []);
+    app.controller('AlarmEditCtrl', function ($scope, $http) {
+        $scope.AlarmClasses = [];
+        $scope.AlarmAreas = [];
+        $scope.Division_of_respons = [];
+        $scope.Responsibles = []
+        $scope.Total = 0;
+
+        $scope.Filter = {
+            Start_time: null,
+            End_time: null,
+            Alarm_class: null,
+            Alarm_area: null,
+            PageSize: 20,
+            PageIndex: 1
+        }
+
+        $scope.AlarmEidt = {
+            Seq_number: null,
+            Start_time: null,
+            End_time: null,
+            Reason: null,
+            Responsible: null,
+            Division_of_respon: null
+        }
+
+        $scope.init = function () {
+            $scope.loadData(true);
+            $http.post('/Home/IntFilter').then(
+                function successCallback(response) {
+                    $scope.AlarmClasses = response.data.alarmClasses
+                    $scope.AlarmAreas = response.data.alarmAreas;
+                    $scope.Division_of_respons = response.data.Division_of_respons;
+                    $scope.Responsibles = response.data.Responsibles;
+                },
+                function errorCallback(response) {
+                    // 请求失败执行代码
+                });
+
+            $('#reservationtime').daterangepicker({
+                timePicker: true,
+                timePickerSeconds: true,
+                timePicker24Hour: true,
+                locale: {
+                    "format": "YYYY-MM-DD HH:mm:ss",
+                    "separator": " 至 ",
+                    "applyLabel": "应用",
+                    "cancelLabel": "取消",
+                    "fromLabel": "From",
+                    "toLabel": "To",
+                    "customRangeLabel": "Custom",
+                    "daysOfWeek": [
+                      "日",
+                      "一",
+                      "二",
+                      "三",
+                      "四",
+                      "五",
+                      "六"
+                    ],
+                    "monthNames": [
+                      "一月",
+                      "二月",
+                      "三月",
+                      "四月",
+                      "五月",
+                      "六月",
+                      "7月",
+                      "八月",
+                      "九月",
+                      "十月",
+                      "十一月",
+                      "十二月"
+                    ],
+                    "firstDay": 1
+                },
+                startDate: new Date(),
+                endDate: new Date()
+            }, function (start, end, label) {
+                $scope.Filter.Start_time = start;
+                $scope.Filter.End_time = end;
+            });
+        }
+
+        $scope.search = function () {
+            $scope.Filter.PageIndex = 1
+            $scope.loadData(true);
+        }
+
+        $scope.loadData = function (isInitpagination) {
+            $http.post('GetAlarmEditList', $scope.Filter).then(
+                function successCallback(response) {
+                    $scope.Total = response.data.iTotalDisplayRecords;
+                    //$scope.names = response.data.sites;
+                    $scope.dataTabls = response.data.aaData;
+                    if (isInitpagination == true) {
+                        $scope.Initpagination();
+                    }
+                },
+                function errorCallback(response) {
+                    // 请求失败执行代码
+                });
+        }
+
+        $scope.Initpagination = function () {
+            $('.M-box11').pagination({
+                totalData: $scope.Total,
+                showData: 20,
+                jump: true,
+                callback: function (api) {
+                    $scope.Filter.PageIndex = api.getCurrent()
+                    $scope.loadData(false);
+                }
+            });
+        }
+
+        $scope.Edit = function (item, num) {
+            $scope.AlarmEidt.ID = item.ID;
+            $scope.AlarmEidt.Reason = item.Reason;
+            $scope.AlarmEidt.Responsible = item.Responsible;
+            $scope.AlarmEidt.Division_of_respon = item.Division_of_respon;
+            $scope.AlarmEidt.Start_time = eval('new ' + item.Start_time.substr(1, item.Start_time.length - 2));
+            $scope.AlarmEidt.End_time = eval('new ' + item.End_time.substr(1, item.End_time.length - 2));
+            //alert($scope.AlarmEidt.Reason);
+            $('#dateRange').daterangepicker({
+                timePicker: true,
+                timePickerSeconds: true,
+                //timePickerIncrement: 30,
+                timePicker24Hour: true,
+                locale: {
+                    "format": "YYYY-MM-DD HH:mm:ss",
+                    "separator": " 至 ",
+                    "applyLabel": "应用",
+                    "cancelLabel": "取消",
+                    "fromLabel": "From",
+                    "toLabel": "To",
+                    "customRangeLabel": "Custom",
+                    "daysOfWeek": [
+                      "日",
+                      "一",
+                      "二",
+                      "三",
+                      "四",
+                      "五",
+                      "六"
+                    ],
+                    "monthNames": [
+                      "一月",
+                      "二月",
+                      "三月",
+                      "四月",
+                      "五月",
+                      "六月",
+                      "7月",
+                      "八月",
+                      "九月",
+                      "十月",
+                      "十一月",
+                      "十二月"
+                    ],
+                    "firstDay": 1
+                },
+                startDate: item.Start_timeStr,
+                endDate: item.End_timeStr
+            }, function (start, end, label) {
+                $scope.AlarmEidt.Start_time = start;
+                $scope.AlarmEidt.End_time = end;
+            });
+        }
+
+        $scope.Remove = function (item, num) {
+            bootbox.confirm({
+                buttons: { confirm: { label: '确定' }, cancel: { label: '取消' } },
+                message: "确认删除此条数据?",
+                callback: function (result) {
+                    if (result) {
+                        $http.post('DeleteAlarmEidt', {ID:item.ID}).then(
+                        function successCallback(response) {
+                            if(response.data==true)
+                            {
+                                $scope.Filter.PageIndex = 1
+                                $scope.loadData(true);
+                                toastr.success("删除成功！")
+                            }
+                            else {
+                                toastr.error("删除失败！")
+                            }
+                        },
+                        function errorCallback(response) {
+                            // 请求失败执行代码
+                            toastr.warning("发生异常请联系管理员！")
+                        });
+                    }
+                }
+            });
+        }
+
+        $scope.SaveChange = function () {
+
+            $http.post('AlarmEditSaveChange', $scope.AlarmEidt).then(
+                function successCallback(response) {
+                    if (response.data == true) {
+                        $scope.Filter.PageIndex = 1
+                        $scope.loadData(true);
+                        $('#modal-default').modal('hide')
+                        toastr.success("编辑成功！")
+                    }
+                    else {
+                        toastr.error("编辑失败！")
+                    }
+                },
+                function errorCallback(response) {
+                    toastr.warning("发生异常请联系管理员！")
+                    // 请求失败执行代码
+                });
+        }
+
+    });
+
+
+</script>

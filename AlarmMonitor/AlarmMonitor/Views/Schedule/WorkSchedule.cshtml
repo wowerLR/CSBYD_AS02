@@ -1,0 +1,148 @@
+﻿<link href="~/plugins/timepicker/bootstrap-timepicker.min.css" rel="stylesheet" />
+<div ng-app="myApp" ng-controller="ScheduleCtrl" ng-init="init()">
+    <section class="content-header sub_head">
+        <h1>
+            设置
+            <small>开停线编辑</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li>
+                <a href="#">
+                    <i class="fa fa-dashboard"></i>
+                    主页
+                </a>
+            </li>
+            <li class="active">
+                <a href="">设置</a>
+            </li>
+            <li class="active">开停线编辑</li>
+        </ol>
+    </section>
+    <section class="content">
+        <div class="row">
+
+            <div class="col-xs-12">
+                <div class="col-xs-12">
+                    <div class="box">
+                        <div class="box-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover table-striped">
+                                    <caption>暗灯编辑表格</caption>
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th>早班</th>
+                                            <th>晚班</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="x in DateStr" on-finish-render-filters>
+                                            <td>{{x.Name}}</td>
+                                            <td>
+                                                <input type="text" class="col-xs5 timepicker" ng-model="x.Day.StartTime">
+                                                -
+                                                <input type="text" class="col-xs5 timepicker" ng-model="x.Day.EndTime">
+                                            </td>
+                                            <td>
+                                                <input type="text" class="col-xs5 timepicker" ng-model="x.Night.StartTime">
+                                                -
+                                                <input type="text" class="col-xs5 timepicker" ng-model="x.Night.EndTime">
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        @*<input type="text" class="col-xs5 timepicker" value="8:0" />*@
+                        <div class="box-footer">
+                            <button class="btn btn-primary btn-lg" ng-click="Modiy()">确认修改</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<script src="~/plugins/timepicker/bootstrap-timepicker.js"></script>
+<script src="~/Scripts/bootbox.js"></script>
+<script>
+    var app = angular.module('myApp', []);
+    //自定义指令repeatFinish
+    //app.directive('repeatFinish', function () {
+    //    return {
+    //        link: function (scope, element, attr) {
+    //            console.log(scope.$index)
+    //            if (scope.$last == true) {
+    //                $('.timepicker').timepicker({
+    //                    showInputs: true,
+    //                    showMeridian: false
+    //                });
+    //                //scope.$eval(attr.repeatFinish)
+    //            }
+    //        }
+    //    }
+    //})
+    app.directive('onFinishRenderFilters', function ($timeout) {
+        return {
+            restrict: 'A',
+            link: function (scope, element, attr) {
+                if (scope.$last === true) {
+                    $timeout(function () {
+                        scope.$emit('ngRepeatFinished');
+                    });
+                }
+            }
+        };
+    });
+
+    app.controller('ScheduleCtrl', function ($scope, $http, $compile) {
+        //var html = '<input type="text" class="col-xs5 timepicker">';
+
+
+        //用$compile进行编译
+
+        //var $html = $compile(html)($scope);
+
+        $scope.DateStr;
+        $scope.init = function () {
+
+            $http.get('GetShcedule').then(function successCallback(response) {
+                $scope.DateStr = response.data;
+
+            },
+                function errorCallback(response) {
+                    // 请求失败执行代码
+                });
+        }
+        $scope.Modiy = function () {
+            bootbox.confirm({
+                buttons: { confirm: { label: '确定' }, cancel: { label: '取消' } },
+                message: "此数据修改将对系统产生影响，是否确认修改数据?",
+                callback: function (result) {
+                    if (result) {
+                        $http.post('UpdateSchedule', $scope.DateStr).then(
+                                function successCallback(response) {
+                                    if (response.data == true) {
+                                        toastr.success("修改成功！")
+                                    }
+                                    else {
+                                        toastr.error("修改失败！")
+                                    }
+                                },
+                                function errorCallback(response) {
+                                    // 请求失败执行代码
+                                });
+                    }
+                }
+            });
+
+        }
+        $scope.$on('ngRepeatFinished', function (ngRepeatFinishedEvent) {
+            //下面是在table render完成后执行的js
+            $('.timepicker').timepicker({
+                showInputs: true,
+                showMeridian: false
+            });
+        });
+    });
+</script>

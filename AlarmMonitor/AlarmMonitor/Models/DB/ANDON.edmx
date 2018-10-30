@@ -1,0 +1,608 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="ANDONModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Alarm_edit">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Seq_number" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="Start_time" Type="datetime" />
+          <Property Name="End_time" Type="datetime" />
+          <Property Name="Duration" Type="varchar" MaxLength="10" />
+          <Property Name="Reason" Type="nvarchar" MaxLength="50" />
+          <Property Name="Responsible" Type="nvarchar" MaxLength="50" />
+          <Property Name="Position" Type="varchar" MaxLength="10" />
+          <Property Name="Station" Type="varchar" MaxLength="10" />
+          <Property Name="Recorder" Type="nvarchar" MaxLength="50" />
+          <Property Name="Delete_flag" Type="bit" />
+          <Property Name="Alarm_class" Type="nvarchar" MaxLength="10" />
+          <Property Name="Alarm_area" Type="nvarchar" MaxLength="10" />
+          <Property Name="Upload_flag" Type="bit" />
+          <Property Name="alarm_id" Type="nvarchar" MaxLength="20" />
+          <Property Name="generation_utc" Type="datetime2" Precision="7" />
+          <Property Name="Division_of_respon" Type="nvarchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="ALARM_LOG">
+          <Key>
+            <PropertyRef Name="timestamp_utc" />
+            <PropertyRef Name="sequence_number" />
+            <PropertyRef Name="project" />
+          </Key>
+          <Property Name="timestamp" Type="datetime" />
+          <Property Name="timestamp_utc" Type="datetime" Nullable="false" />
+          <Property Name="sequence_number" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="project" Type="varchar" MaxLength="21" Nullable="false" />
+          <Property Name="alarm_id" Type="varchar" MaxLength="255" />
+          <Property Name="alarm_class" Type="varchar" MaxLength="5" />
+          <Property Name="resource" Type="varchar" MaxLength="16" />
+          <Property Name="logged_by" Type="varchar" MaxLength="32" />
+          <Property Name="reference" Type="varchar" MaxLength="32" />
+          <Property Name="prev_state" Type="varchar" MaxLength="1" />
+          <Property Name="log_action" Type="varchar" MaxLength="1" />
+          <Property Name="final_state" Type="varchar" MaxLength="1" />
+          <Property Name="alarm_message" Type="varchar" MaxLength="80" />
+          <Property Name="generation_time" Type="datetime" />
+          <Property Name="generation_time_utc" Type="datetime" />
+        </EntityType>
+        <!--生成过程中发现错误:
+警告 6002: 表/视图“ANDON.dbo.alarm_record”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <EntityType Name="alarm_record">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="node_id" Type="int" />
+          <Property Name="line" Type="nvarchar" MaxLength="50" />
+          <Property Name="status" Type="int" />
+          <Property Name="pause_type" Type="nvarchar" MaxLength="50" />
+          <Property Name="pause_time" Type="datetime" />
+          <Property Name="recover_time" Type="datetime" />
+          <Property Name="upload" Type="int" />
+        </EntityType>
+        <!--生成过程中发现错误:
+警告 6002: 表/视图“ANDON.dbo.alarm_record_upload”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <EntityType Name="alarm_record_upload">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="node_id" Type="int" />
+          <Property Name="line" Type="nchar" MaxLength="10" />
+          <Property Name="status" Type="int" />
+          <Property Name="pause_type" Type="nchar" MaxLength="10" />
+          <Property Name="pause_time" Type="datetime" />
+          <Property Name="recover_time" Type="datetime" />
+          <Property Name="upload" Type="int" />
+        </EntityType>
+        <EntityType Name="DATA_LOG">
+          <Key>
+            <PropertyRef Name="timestamp_utc" />
+            <PropertyRef Name="point_id" />
+          </Key>
+          <Property Name="timestamp" Type="datetime" />
+          <Property Name="timestamp_utc" Type="datetime" Nullable="false" />
+          <Property Name="point_id" Type="varchar" MaxLength="55" Nullable="false" />
+          <Property Name="_VAL" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <!--生成过程中发现错误:
+警告 6002: 表/视图“ANDON.dbo.dianchibao_signal”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <EntityType Name="dianchibao_signal">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="timestamp" Type="datetime" />
+          <Property Name="value" Type="int" />
+        </EntityType>
+        <EntityType Name="EM_LOG">
+          <Key>
+            <PropertyRef Name="timestamp_utc" />
+            <PropertyRef Name="sequence_number" />
+          </Key>
+          <Property Name="timestamp" Type="datetime" />
+          <Property Name="timestamp_utc" Type="datetime" Nullable="false" />
+          <Property Name="sequence_number" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="time" Type="varchar" MaxLength="22" />
+          <Property Name="time_utc" Type="varchar" MaxLength="22" />
+          <Property Name="event_type" Type="varchar" MaxLength="17" />
+          <Property Name="event_source" Type="varchar" MaxLength="49" />
+          <Property Name="action_type" Type="varchar" MaxLength="17" />
+          <Property Name="action_target" Type="varchar" MaxLength="42" />
+        </EntityType>
+        <EntityType Name="EVENT_LOG">
+          <Key>
+            <PropertyRef Name="timestamp_utc" />
+            <PropertyRef Name="sequence_number" />
+          </Key>
+          <Property Name="timestamp" Type="datetime" />
+          <Property Name="timestamp_utc" Type="datetime" Nullable="false" />
+          <Property Name="sequence_number" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="alarm_id" Type="varchar" MaxLength="255" />
+          <Property Name="alarm_class" Type="varchar" MaxLength="5" />
+          <Property Name="resource" Type="varchar" MaxLength="16" />
+          <Property Name="logged_by" Type="varchar" MaxLength="32" />
+          <Property Name="reference" Type="varchar" MaxLength="32" />
+          <Property Name="alarm_message" Type="varchar" MaxLength="80" />
+          <Property Name="generation_time" Type="datetime" />
+          <Property Name="generation_time_utc" Type="datetime" />
+        </EntityType>
+        <!--生成过程中发现错误:
+警告 6002: 表/视图“ANDON.dbo.luntaiku_signal”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <EntityType Name="luntaiku_signal">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="timestamp" Type="datetime" />
+          <Property Name="value" Type="int" />
+        </EntityType>
+        <!--生成过程中发现错误:
+警告 6002: 表/视图“ANDON.dbo.station_info”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <EntityType Name="station_info">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="ALARM_ID" Type="nvarchar" MaxLength="50" />
+          <Property Name="ALARM_MESSAGE" Type="nvarchar" MaxLength="50" />
+          <Property Name="STATION" Type="nchar" MaxLength="10" />
+          <Property Name="POSITION" Type="nchar" MaxLength="10" />
+          <Property Name="PNODE_ID" Type="int" />
+        </EntityType>
+        <EntityType Name="user_log">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="UName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="UID" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="PWD" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="LogInTime" Type="datetime" />
+        </EntityType>
+        <!--生成过程中发现错误:
+警告 6002: 表/视图“ANDON.dbo.AlarmClassView”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <EntityType Name="AlarmClassView">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="alarm_class" Type="nchar" MaxLength="10" />
+          <Property Name="value" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityContainer Name="ANDONModelStoreContainer">
+          <EntitySet Name="Alarm_edit" EntityType="Self.Alarm_edit" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ALARM_LOG" EntityType="Self.ALARM_LOG" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DATA_LOG" EntityType="Self.DATA_LOG" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EM_LOG" EntityType="Self.EM_LOG" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EVENT_LOG" EntityType="Self.EVENT_LOG" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="user_log" EntityType="Self.user_log" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="alarm_record" EntityType="Self.alarm_record" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [alarm_record].[id] AS [id], 
+    [alarm_record].[node_id] AS [node_id], 
+    [alarm_record].[line] AS [line], 
+    [alarm_record].[status] AS [status], 
+    [alarm_record].[pause_type] AS [pause_type], 
+    [alarm_record].[pause_time] AS [pause_time], 
+    [alarm_record].[recover_time] AS [recover_time], 
+    [alarm_record].[upload] AS [upload]
+    FROM [dbo].[alarm_record] AS [alarm_record]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="alarm_record_upload" EntityType="Self.alarm_record_upload" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [alarm_record_upload].[id] AS [id], 
+    [alarm_record_upload].[node_id] AS [node_id], 
+    [alarm_record_upload].[line] AS [line], 
+    [alarm_record_upload].[status] AS [status], 
+    [alarm_record_upload].[pause_type] AS [pause_type], 
+    [alarm_record_upload].[pause_time] AS [pause_time], 
+    [alarm_record_upload].[recover_time] AS [recover_time], 
+    [alarm_record_upload].[upload] AS [upload]
+    FROM [dbo].[alarm_record_upload] AS [alarm_record_upload]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="dianchibao_signal" EntityType="Self.dianchibao_signal" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [dianchibao_signal].[ID] AS [ID], 
+    [dianchibao_signal].[timestamp] AS [timestamp], 
+    [dianchibao_signal].[value] AS [value]
+    FROM [dbo].[dianchibao_signal] AS [dianchibao_signal]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="luntaiku_signal" EntityType="Self.luntaiku_signal" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [luntaiku_signal].[ID] AS [ID], 
+    [luntaiku_signal].[timestamp] AS [timestamp], 
+    [luntaiku_signal].[value] AS [value]
+    FROM [dbo].[luntaiku_signal] AS [luntaiku_signal]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="station_info" EntityType="Self.station_info" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [station_info].[ID] AS [ID], 
+    [station_info].[ALARM_ID] AS [ALARM_ID], 
+    [station_info].[ALARM_MESSAGE] AS [ALARM_MESSAGE], 
+    [station_info].[STATION] AS [STATION], 
+    [station_info].[POSITION] AS [POSITION], 
+    [station_info].[PNODE_ID] AS [PNODE_ID]
+    FROM [dbo].[station_info] AS [station_info]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="AlarmClassView" EntityType="Self.AlarmClassView" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [AlarmClassView].[ID] AS [ID], 
+    [AlarmClassView].[alarm_class] AS [alarm_class], 
+    [AlarmClassView].[value] AS [value]
+    FROM [dbo].[AlarmClassView] AS [AlarmClassView]</DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ANDONModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="ALARM_LOG">
+          <Key>
+            <PropertyRef Name="timestamp_utc" />
+            <PropertyRef Name="sequence_number" />
+            <PropertyRef Name="project" />
+          </Key>
+          <Property Name="timestamp" Type="DateTime" Precision="3" />
+          <Property Name="timestamp_utc" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="sequence_number" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="project" Type="String" MaxLength="21" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="alarm_id" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="alarm_class" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="resource" Type="String" MaxLength="16" FixedLength="false" Unicode="false" />
+          <Property Name="logged_by" Type="String" MaxLength="32" FixedLength="false" Unicode="false" />
+          <Property Name="reference" Type="String" MaxLength="32" FixedLength="false" Unicode="false" />
+          <Property Name="prev_state" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="log_action" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="final_state" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="alarm_message" Type="String" MaxLength="80" FixedLength="false" Unicode="false" />
+          <Property Name="generation_time" Type="DateTime" Precision="3" />
+          <Property Name="generation_time_utc" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="DATA_LOG">
+          <Key>
+            <PropertyRef Name="timestamp_utc" />
+            <PropertyRef Name="point_id" />
+          </Key>
+          <Property Name="timestamp" Type="DateTime" Precision="3" />
+          <Property Name="timestamp_utc" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="point_id" Type="String" MaxLength="55" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="C_VAL" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="EM_LOG">
+          <Key>
+            <PropertyRef Name="timestamp_utc" />
+            <PropertyRef Name="sequence_number" />
+          </Key>
+          <Property Name="timestamp" Type="DateTime" Precision="3" />
+          <Property Name="timestamp_utc" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="sequence_number" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="time" Type="String" MaxLength="22" FixedLength="false" Unicode="false" />
+          <Property Name="time_utc" Type="String" MaxLength="22" FixedLength="false" Unicode="false" />
+          <Property Name="event_type" Type="String" MaxLength="17" FixedLength="false" Unicode="false" />
+          <Property Name="event_source" Type="String" MaxLength="49" FixedLength="false" Unicode="false" />
+          <Property Name="action_type" Type="String" MaxLength="17" FixedLength="false" Unicode="false" />
+          <Property Name="action_target" Type="String" MaxLength="42" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="EVENT_LOG">
+          <Key>
+            <PropertyRef Name="timestamp_utc" />
+            <PropertyRef Name="sequence_number" />
+          </Key>
+          <Property Name="timestamp" Type="DateTime" Precision="3" />
+          <Property Name="timestamp_utc" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="sequence_number" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="alarm_id" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="alarm_class" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="resource" Type="String" MaxLength="16" FixedLength="false" Unicode="false" />
+          <Property Name="logged_by" Type="String" MaxLength="32" FixedLength="false" Unicode="false" />
+          <Property Name="reference" Type="String" MaxLength="32" FixedLength="false" Unicode="false" />
+          <Property Name="alarm_message" Type="String" MaxLength="80" FixedLength="false" Unicode="false" />
+          <Property Name="generation_time" Type="DateTime" Precision="3" />
+          <Property Name="generation_time_utc" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="alarm_record">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="node_id" Type="Int32" />
+          <Property Name="line" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="status" Type="Int32" />
+          <Property Name="pause_type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="pause_time" Type="DateTime" Precision="3" />
+          <Property Name="recover_time" Type="DateTime" Precision="3" />
+          <Property Name="upload" Type="Int32" />
+        </EntityType>
+        <EntityType Name="alarm_record_upload">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="node_id" Type="Int32" />
+          <Property Name="line" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="status" Type="Int32" />
+          <Property Name="pause_type" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="pause_time" Type="DateTime" Precision="3" />
+          <Property Name="recover_time" Type="DateTime" Precision="3" />
+          <Property Name="upload" Type="Int32" />
+        </EntityType>
+        <EntityType Name="dianchibao_signal">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="timestamp" Type="DateTime" Precision="3" />
+          <Property Name="value" Type="Int32" />
+        </EntityType>
+        <EntityType Name="luntaiku_signal">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="timestamp" Type="DateTime" Precision="3" />
+          <Property Name="value" Type="Int32" />
+        </EntityType>
+        <EntityType Name="station_info">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="ALARM_ID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ALARM_MESSAGE" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="STATION" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="POSITION" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="PNODE_ID" Type="Int32" />
+        </EntityType>
+        <EntityContainer Name="ANDONEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="ALARM_LOG" EntityType="Self.ALARM_LOG" />
+          <EntitySet Name="DATA_LOG" EntityType="Self.DATA_LOG" />
+          <EntitySet Name="EM_LOG" EntityType="Self.EM_LOG" />
+          <EntitySet Name="EVENT_LOG" EntityType="Self.EVENT_LOG" />
+          <EntitySet Name="alarm_record" EntityType="Self.alarm_record" />
+          <EntitySet Name="alarm_record_upload" EntityType="Self.alarm_record_upload" />
+          <EntitySet Name="dianchibao_signal" EntityType="Self.dianchibao_signal" />
+          <EntitySet Name="luntaiku_signal" EntityType="Self.luntaiku_signal" />
+          <EntitySet Name="station_info" EntityType="Self.station_info" />
+          <EntitySet Name="AlarmClassView" EntityType="ANDONModel.AlarmClassView" />
+          <EntitySet Name="user_log" EntityType="ANDONModel.user_log" />
+          <EntitySet Name="Alarm_edit" EntityType="ANDONModel.Alarm_edit" />
+        </EntityContainer>
+        <EntityType Name="AlarmClassView">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Guid" Nullable="false" />
+          <Property Name="alarm_class" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="value" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="user_log">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="UName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PWD" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LogInTime" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="Alarm_edit">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Seq_number" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Start_time" Type="DateTime" Precision="3" />
+          <Property Name="End_time" Type="DateTime" Precision="3" />
+          <Property Name="Duration" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Reason" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Responsible" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Position" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Station" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Recorder" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Delete_flag" Type="Boolean" />
+          <Property Name="Alarm_class" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Alarm_area" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Upload_flag" Type="Boolean" />
+          <Property Name="alarm_id" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="generation_utc" Type="DateTime" Precision="7" />
+          <Property Name="Division_of_respon" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ANDONModelStoreContainer" CdmEntityContainer="ANDONEntities">
+          <EntitySetMapping Name="ALARM_LOG">
+            <EntityTypeMapping TypeName="ANDONModel.ALARM_LOG">
+              <MappingFragment StoreEntitySet="ALARM_LOG">
+                <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+                <ScalarProperty Name="timestamp_utc" ColumnName="timestamp_utc" />
+                <ScalarProperty Name="sequence_number" ColumnName="sequence_number" />
+                <ScalarProperty Name="project" ColumnName="project" />
+                <ScalarProperty Name="alarm_id" ColumnName="alarm_id" />
+                <ScalarProperty Name="alarm_class" ColumnName="alarm_class" />
+                <ScalarProperty Name="resource" ColumnName="resource" />
+                <ScalarProperty Name="logged_by" ColumnName="logged_by" />
+                <ScalarProperty Name="reference" ColumnName="reference" />
+                <ScalarProperty Name="prev_state" ColumnName="prev_state" />
+                <ScalarProperty Name="log_action" ColumnName="log_action" />
+                <ScalarProperty Name="final_state" ColumnName="final_state" />
+                <ScalarProperty Name="alarm_message" ColumnName="alarm_message" />
+                <ScalarProperty Name="generation_time" ColumnName="generation_time" />
+                <ScalarProperty Name="generation_time_utc" ColumnName="generation_time_utc" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DATA_LOG">
+            <EntityTypeMapping TypeName="ANDONModel.DATA_LOG">
+              <MappingFragment StoreEntitySet="DATA_LOG">
+                <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+                <ScalarProperty Name="timestamp_utc" ColumnName="timestamp_utc" />
+                <ScalarProperty Name="point_id" ColumnName="point_id" />
+                <ScalarProperty Name="C_VAL" ColumnName="_VAL" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EM_LOG">
+            <EntityTypeMapping TypeName="ANDONModel.EM_LOG">
+              <MappingFragment StoreEntitySet="EM_LOG">
+                <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+                <ScalarProperty Name="timestamp_utc" ColumnName="timestamp_utc" />
+                <ScalarProperty Name="sequence_number" ColumnName="sequence_number" />
+                <ScalarProperty Name="time" ColumnName="time" />
+                <ScalarProperty Name="time_utc" ColumnName="time_utc" />
+                <ScalarProperty Name="event_type" ColumnName="event_type" />
+                <ScalarProperty Name="event_source" ColumnName="event_source" />
+                <ScalarProperty Name="action_type" ColumnName="action_type" />
+                <ScalarProperty Name="action_target" ColumnName="action_target" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EVENT_LOG">
+            <EntityTypeMapping TypeName="ANDONModel.EVENT_LOG">
+              <MappingFragment StoreEntitySet="EVENT_LOG">
+                <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+                <ScalarProperty Name="timestamp_utc" ColumnName="timestamp_utc" />
+                <ScalarProperty Name="sequence_number" ColumnName="sequence_number" />
+                <ScalarProperty Name="alarm_id" ColumnName="alarm_id" />
+                <ScalarProperty Name="alarm_class" ColumnName="alarm_class" />
+                <ScalarProperty Name="resource" ColumnName="resource" />
+                <ScalarProperty Name="logged_by" ColumnName="logged_by" />
+                <ScalarProperty Name="reference" ColumnName="reference" />
+                <ScalarProperty Name="alarm_message" ColumnName="alarm_message" />
+                <ScalarProperty Name="generation_time" ColumnName="generation_time" />
+                <ScalarProperty Name="generation_time_utc" ColumnName="generation_time_utc" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="alarm_record">
+            <EntityTypeMapping TypeName="ANDONModel.alarm_record">
+              <MappingFragment StoreEntitySet="alarm_record">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="node_id" ColumnName="node_id" />
+                <ScalarProperty Name="line" ColumnName="line" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="pause_type" ColumnName="pause_type" />
+                <ScalarProperty Name="pause_time" ColumnName="pause_time" />
+                <ScalarProperty Name="recover_time" ColumnName="recover_time" />
+                <ScalarProperty Name="upload" ColumnName="upload" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="alarm_record_upload">
+            <EntityTypeMapping TypeName="ANDONModel.alarm_record_upload">
+              <MappingFragment StoreEntitySet="alarm_record_upload">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="node_id" ColumnName="node_id" />
+                <ScalarProperty Name="line" ColumnName="line" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="pause_type" ColumnName="pause_type" />
+                <ScalarProperty Name="pause_time" ColumnName="pause_time" />
+                <ScalarProperty Name="recover_time" ColumnName="recover_time" />
+                <ScalarProperty Name="upload" ColumnName="upload" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="dianchibao_signal">
+            <EntityTypeMapping TypeName="ANDONModel.dianchibao_signal">
+              <MappingFragment StoreEntitySet="dianchibao_signal">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+                <ScalarProperty Name="value" ColumnName="value" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="luntaiku_signal">
+            <EntityTypeMapping TypeName="ANDONModel.luntaiku_signal">
+              <MappingFragment StoreEntitySet="luntaiku_signal">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+                <ScalarProperty Name="value" ColumnName="value" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="station_info">
+            <EntityTypeMapping TypeName="ANDONModel.station_info">
+              <MappingFragment StoreEntitySet="station_info">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="ALARM_ID" ColumnName="ALARM_ID" />
+                <ScalarProperty Name="ALARM_MESSAGE" ColumnName="ALARM_MESSAGE" />
+                <ScalarProperty Name="STATION" ColumnName="STATION" />
+                <ScalarProperty Name="POSITION" ColumnName="POSITION" />
+                <ScalarProperty Name="PNODE_ID" ColumnName="PNODE_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AlarmClassView">
+            <EntityTypeMapping TypeName="ANDONModel.AlarmClassView">
+              <MappingFragment StoreEntitySet="AlarmClassView">
+                <ScalarProperty Name="value" ColumnName="value" />
+                <ScalarProperty Name="alarm_class" ColumnName="alarm_class" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="user_log">
+            <EntityTypeMapping TypeName="ANDONModel.user_log">
+              <MappingFragment StoreEntitySet="user_log">
+                <ScalarProperty Name="LogInTime" ColumnName="LogInTime" />
+                <ScalarProperty Name="PWD" ColumnName="PWD" />
+                <ScalarProperty Name="UID" ColumnName="UID" />
+                <ScalarProperty Name="UName" ColumnName="UName" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Alarm_edit">
+            <EntityTypeMapping TypeName="ANDONModel.Alarm_edit">
+              <MappingFragment StoreEntitySet="Alarm_edit">
+                <ScalarProperty Name="Division_of_respon" ColumnName="Division_of_respon" />
+                <ScalarProperty Name="generation_utc" ColumnName="generation_utc" />
+                <ScalarProperty Name="alarm_id" ColumnName="alarm_id" />
+                <ScalarProperty Name="Upload_flag" ColumnName="Upload_flag" />
+                <ScalarProperty Name="Alarm_area" ColumnName="Alarm_area" />
+                <ScalarProperty Name="Alarm_class" ColumnName="Alarm_class" />
+                <ScalarProperty Name="Delete_flag" ColumnName="Delete_flag" />
+                <ScalarProperty Name="Recorder" ColumnName="Recorder" />
+                <ScalarProperty Name="Station" ColumnName="Station" />
+                <ScalarProperty Name="Position" ColumnName="Position" />
+                <ScalarProperty Name="Responsible" ColumnName="Responsible" />
+                <ScalarProperty Name="Reason" ColumnName="Reason" />
+                <ScalarProperty Name="Duration" ColumnName="Duration" />
+                <ScalarProperty Name="End_time" ColumnName="End_time" />
+                <ScalarProperty Name="Start_time" ColumnName="Start_time" />
+                <ScalarProperty Name="Seq_number" ColumnName="Seq_number" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="False" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="无" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

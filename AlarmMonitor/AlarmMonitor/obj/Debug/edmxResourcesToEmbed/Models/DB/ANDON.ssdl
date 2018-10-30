@@ -1,0 +1,235 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ANDONModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Alarm_edit">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Seq_number" Type="varchar" MaxLength="10" Nullable="false" />
+    <Property Name="Start_time" Type="datetime" />
+    <Property Name="End_time" Type="datetime" />
+    <Property Name="Duration" Type="varchar" MaxLength="10" />
+    <Property Name="Reason" Type="nvarchar" MaxLength="50" />
+    <Property Name="Responsible" Type="nvarchar" MaxLength="50" />
+    <Property Name="Position" Type="varchar" MaxLength="10" />
+    <Property Name="Station" Type="varchar" MaxLength="10" />
+    <Property Name="Recorder" Type="nvarchar" MaxLength="50" />
+    <Property Name="Delete_flag" Type="bit" />
+    <Property Name="Alarm_class" Type="nvarchar" MaxLength="10" />
+    <Property Name="Alarm_area" Type="nvarchar" MaxLength="10" />
+    <Property Name="Upload_flag" Type="bit" />
+    <Property Name="alarm_id" Type="nvarchar" MaxLength="20" />
+    <Property Name="generation_utc" Type="datetime2" Precision="7" />
+    <Property Name="Division_of_respon" Type="nvarchar" MaxLength="10" />
+  </EntityType>
+  <EntityType Name="ALARM_LOG">
+    <Key>
+      <PropertyRef Name="timestamp_utc" />
+      <PropertyRef Name="sequence_number" />
+      <PropertyRef Name="project" />
+    </Key>
+    <Property Name="timestamp" Type="datetime" />
+    <Property Name="timestamp_utc" Type="datetime" Nullable="false" />
+    <Property Name="sequence_number" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="project" Type="varchar" MaxLength="21" Nullable="false" />
+    <Property Name="alarm_id" Type="varchar" MaxLength="255" />
+    <Property Name="alarm_class" Type="varchar" MaxLength="5" />
+    <Property Name="resource" Type="varchar" MaxLength="16" />
+    <Property Name="logged_by" Type="varchar" MaxLength="32" />
+    <Property Name="reference" Type="varchar" MaxLength="32" />
+    <Property Name="prev_state" Type="varchar" MaxLength="1" />
+    <Property Name="log_action" Type="varchar" MaxLength="1" />
+    <Property Name="final_state" Type="varchar" MaxLength="1" />
+    <Property Name="alarm_message" Type="varchar" MaxLength="80" />
+    <Property Name="generation_time" Type="datetime" />
+    <Property Name="generation_time_utc" Type="datetime" />
+  </EntityType>
+  <!--生成过程中发现错误:
+警告 6002: 表/视图“ANDON.dbo.alarm_record”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+  <EntityType Name="alarm_record">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="node_id" Type="int" />
+    <Property Name="line" Type="nvarchar" MaxLength="50" />
+    <Property Name="status" Type="int" />
+    <Property Name="pause_type" Type="nvarchar" MaxLength="50" />
+    <Property Name="pause_time" Type="datetime" />
+    <Property Name="recover_time" Type="datetime" />
+    <Property Name="upload" Type="int" />
+  </EntityType>
+  <!--生成过程中发现错误:
+警告 6002: 表/视图“ANDON.dbo.alarm_record_upload”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+  <EntityType Name="alarm_record_upload">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="node_id" Type="int" />
+    <Property Name="line" Type="nchar" MaxLength="10" />
+    <Property Name="status" Type="int" />
+    <Property Name="pause_type" Type="nchar" MaxLength="10" />
+    <Property Name="pause_time" Type="datetime" />
+    <Property Name="recover_time" Type="datetime" />
+    <Property Name="upload" Type="int" />
+  </EntityType>
+  <EntityType Name="DATA_LOG">
+    <Key>
+      <PropertyRef Name="timestamp_utc" />
+      <PropertyRef Name="point_id" />
+    </Key>
+    <Property Name="timestamp" Type="datetime" />
+    <Property Name="timestamp_utc" Type="datetime" Nullable="false" />
+    <Property Name="point_id" Type="varchar" MaxLength="55" Nullable="false" />
+    <Property Name="_VAL" Type="varchar" MaxLength="255" />
+  </EntityType>
+  <!--生成过程中发现错误:
+警告 6002: 表/视图“ANDON.dbo.dianchibao_signal”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+  <EntityType Name="dianchibao_signal">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="timestamp" Type="datetime" />
+    <Property Name="value" Type="int" />
+  </EntityType>
+  <EntityType Name="EM_LOG">
+    <Key>
+      <PropertyRef Name="timestamp_utc" />
+      <PropertyRef Name="sequence_number" />
+    </Key>
+    <Property Name="timestamp" Type="datetime" />
+    <Property Name="timestamp_utc" Type="datetime" Nullable="false" />
+    <Property Name="sequence_number" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="time" Type="varchar" MaxLength="22" />
+    <Property Name="time_utc" Type="varchar" MaxLength="22" />
+    <Property Name="event_type" Type="varchar" MaxLength="17" />
+    <Property Name="event_source" Type="varchar" MaxLength="49" />
+    <Property Name="action_type" Type="varchar" MaxLength="17" />
+    <Property Name="action_target" Type="varchar" MaxLength="42" />
+  </EntityType>
+  <EntityType Name="EVENT_LOG">
+    <Key>
+      <PropertyRef Name="timestamp_utc" />
+      <PropertyRef Name="sequence_number" />
+    </Key>
+    <Property Name="timestamp" Type="datetime" />
+    <Property Name="timestamp_utc" Type="datetime" Nullable="false" />
+    <Property Name="sequence_number" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="alarm_id" Type="varchar" MaxLength="255" />
+    <Property Name="alarm_class" Type="varchar" MaxLength="5" />
+    <Property Name="resource" Type="varchar" MaxLength="16" />
+    <Property Name="logged_by" Type="varchar" MaxLength="32" />
+    <Property Name="reference" Type="varchar" MaxLength="32" />
+    <Property Name="alarm_message" Type="varchar" MaxLength="80" />
+    <Property Name="generation_time" Type="datetime" />
+    <Property Name="generation_time_utc" Type="datetime" />
+  </EntityType>
+  <!--生成过程中发现错误:
+警告 6002: 表/视图“ANDON.dbo.luntaiku_signal”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+  <EntityType Name="luntaiku_signal">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="timestamp" Type="datetime" />
+    <Property Name="value" Type="int" />
+  </EntityType>
+  <!--生成过程中发现错误:
+警告 6002: 表/视图“ANDON.dbo.station_info”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+  <EntityType Name="station_info">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="nchar" MaxLength="10" Nullable="false" />
+    <Property Name="ALARM_ID" Type="nvarchar" MaxLength="50" />
+    <Property Name="ALARM_MESSAGE" Type="nvarchar" MaxLength="50" />
+    <Property Name="STATION" Type="nchar" MaxLength="10" />
+    <Property Name="POSITION" Type="nchar" MaxLength="10" />
+    <Property Name="PNODE_ID" Type="int" />
+  </EntityType>
+  <EntityType Name="user_log">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" Nullable="false" />
+    <Property Name="UName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="UID" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="PWD" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="LogInTime" Type="datetime" />
+  </EntityType>
+  <!--生成过程中发现错误:
+警告 6002: 表/视图“ANDON.dbo.AlarmClassView”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+  <EntityType Name="AlarmClassView">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="alarm_class" Type="nchar" MaxLength="10" />
+    <Property Name="value" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityContainer Name="ANDONModelStoreContainer">
+    <EntitySet Name="Alarm_edit" EntityType="Self.Alarm_edit" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ALARM_LOG" EntityType="Self.ALARM_LOG" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="DATA_LOG" EntityType="Self.DATA_LOG" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="EM_LOG" EntityType="Self.EM_LOG" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="EVENT_LOG" EntityType="Self.EVENT_LOG" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="user_log" EntityType="Self.user_log" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="alarm_record" EntityType="Self.alarm_record" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [alarm_record].[id] AS [id], 
+    [alarm_record].[node_id] AS [node_id], 
+    [alarm_record].[line] AS [line], 
+    [alarm_record].[status] AS [status], 
+    [alarm_record].[pause_type] AS [pause_type], 
+    [alarm_record].[pause_time] AS [pause_time], 
+    [alarm_record].[recover_time] AS [recover_time], 
+    [alarm_record].[upload] AS [upload]
+    FROM [dbo].[alarm_record] AS [alarm_record]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="alarm_record_upload" EntityType="Self.alarm_record_upload" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [alarm_record_upload].[id] AS [id], 
+    [alarm_record_upload].[node_id] AS [node_id], 
+    [alarm_record_upload].[line] AS [line], 
+    [alarm_record_upload].[status] AS [status], 
+    [alarm_record_upload].[pause_type] AS [pause_type], 
+    [alarm_record_upload].[pause_time] AS [pause_time], 
+    [alarm_record_upload].[recover_time] AS [recover_time], 
+    [alarm_record_upload].[upload] AS [upload]
+    FROM [dbo].[alarm_record_upload] AS [alarm_record_upload]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="dianchibao_signal" EntityType="Self.dianchibao_signal" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [dianchibao_signal].[ID] AS [ID], 
+    [dianchibao_signal].[timestamp] AS [timestamp], 
+    [dianchibao_signal].[value] AS [value]
+    FROM [dbo].[dianchibao_signal] AS [dianchibao_signal]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="luntaiku_signal" EntityType="Self.luntaiku_signal" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [luntaiku_signal].[ID] AS [ID], 
+    [luntaiku_signal].[timestamp] AS [timestamp], 
+    [luntaiku_signal].[value] AS [value]
+    FROM [dbo].[luntaiku_signal] AS [luntaiku_signal]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="station_info" EntityType="Self.station_info" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [station_info].[ID] AS [ID], 
+    [station_info].[ALARM_ID] AS [ALARM_ID], 
+    [station_info].[ALARM_MESSAGE] AS [ALARM_MESSAGE], 
+    [station_info].[STATION] AS [STATION], 
+    [station_info].[POSITION] AS [POSITION], 
+    [station_info].[PNODE_ID] AS [PNODE_ID]
+    FROM [dbo].[station_info] AS [station_info]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="AlarmClassView" EntityType="Self.AlarmClassView" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [AlarmClassView].[ID] AS [ID], 
+    [AlarmClassView].[alarm_class] AS [alarm_class], 
+    [AlarmClassView].[value] AS [value]
+    FROM [dbo].[AlarmClassView] AS [AlarmClassView]</DefiningQuery>
+    </EntitySet>
+  </EntityContainer>
+</Schema>

@@ -1,0 +1,169 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="ANDONModelStoreContainer" CdmEntityContainer="ANDONEntities">
+    <EntitySetMapping Name="ALARM_LOG">
+      <EntityTypeMapping TypeName="ANDONModel.ALARM_LOG">
+        <MappingFragment StoreEntitySet="ALARM_LOG">
+          <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+          <ScalarProperty Name="timestamp_utc" ColumnName="timestamp_utc" />
+          <ScalarProperty Name="sequence_number" ColumnName="sequence_number" />
+          <ScalarProperty Name="project" ColumnName="project" />
+          <ScalarProperty Name="alarm_id" ColumnName="alarm_id" />
+          <ScalarProperty Name="alarm_class" ColumnName="alarm_class" />
+          <ScalarProperty Name="resource" ColumnName="resource" />
+          <ScalarProperty Name="logged_by" ColumnName="logged_by" />
+          <ScalarProperty Name="reference" ColumnName="reference" />
+          <ScalarProperty Name="prev_state" ColumnName="prev_state" />
+          <ScalarProperty Name="log_action" ColumnName="log_action" />
+          <ScalarProperty Name="final_state" ColumnName="final_state" />
+          <ScalarProperty Name="alarm_message" ColumnName="alarm_message" />
+          <ScalarProperty Name="generation_time" ColumnName="generation_time" />
+          <ScalarProperty Name="generation_time_utc" ColumnName="generation_time_utc" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DATA_LOG">
+      <EntityTypeMapping TypeName="ANDONModel.DATA_LOG">
+        <MappingFragment StoreEntitySet="DATA_LOG">
+          <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+          <ScalarProperty Name="timestamp_utc" ColumnName="timestamp_utc" />
+          <ScalarProperty Name="point_id" ColumnName="point_id" />
+          <ScalarProperty Name="C_VAL" ColumnName="_VAL" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="EM_LOG">
+      <EntityTypeMapping TypeName="ANDONModel.EM_LOG">
+        <MappingFragment StoreEntitySet="EM_LOG">
+          <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+          <ScalarProperty Name="timestamp_utc" ColumnName="timestamp_utc" />
+          <ScalarProperty Name="sequence_number" ColumnName="sequence_number" />
+          <ScalarProperty Name="time" ColumnName="time" />
+          <ScalarProperty Name="time_utc" ColumnName="time_utc" />
+          <ScalarProperty Name="event_type" ColumnName="event_type" />
+          <ScalarProperty Name="event_source" ColumnName="event_source" />
+          <ScalarProperty Name="action_type" ColumnName="action_type" />
+          <ScalarProperty Name="action_target" ColumnName="action_target" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="EVENT_LOG">
+      <EntityTypeMapping TypeName="ANDONModel.EVENT_LOG">
+        <MappingFragment StoreEntitySet="EVENT_LOG">
+          <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+          <ScalarProperty Name="timestamp_utc" ColumnName="timestamp_utc" />
+          <ScalarProperty Name="sequence_number" ColumnName="sequence_number" />
+          <ScalarProperty Name="alarm_id" ColumnName="alarm_id" />
+          <ScalarProperty Name="alarm_class" ColumnName="alarm_class" />
+          <ScalarProperty Name="resource" ColumnName="resource" />
+          <ScalarProperty Name="logged_by" ColumnName="logged_by" />
+          <ScalarProperty Name="reference" ColumnName="reference" />
+          <ScalarProperty Name="alarm_message" ColumnName="alarm_message" />
+          <ScalarProperty Name="generation_time" ColumnName="generation_time" />
+          <ScalarProperty Name="generation_time_utc" ColumnName="generation_time_utc" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="alarm_record">
+      <EntityTypeMapping TypeName="ANDONModel.alarm_record">
+        <MappingFragment StoreEntitySet="alarm_record">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="node_id" ColumnName="node_id" />
+          <ScalarProperty Name="line" ColumnName="line" />
+          <ScalarProperty Name="status" ColumnName="status" />
+          <ScalarProperty Name="pause_type" ColumnName="pause_type" />
+          <ScalarProperty Name="pause_time" ColumnName="pause_time" />
+          <ScalarProperty Name="recover_time" ColumnName="recover_time" />
+          <ScalarProperty Name="upload" ColumnName="upload" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="alarm_record_upload">
+      <EntityTypeMapping TypeName="ANDONModel.alarm_record_upload">
+        <MappingFragment StoreEntitySet="alarm_record_upload">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="node_id" ColumnName="node_id" />
+          <ScalarProperty Name="line" ColumnName="line" />
+          <ScalarProperty Name="status" ColumnName="status" />
+          <ScalarProperty Name="pause_type" ColumnName="pause_type" />
+          <ScalarProperty Name="pause_time" ColumnName="pause_time" />
+          <ScalarProperty Name="recover_time" ColumnName="recover_time" />
+          <ScalarProperty Name="upload" ColumnName="upload" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="dianchibao_signal">
+      <EntityTypeMapping TypeName="ANDONModel.dianchibao_signal">
+        <MappingFragment StoreEntitySet="dianchibao_signal">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+          <ScalarProperty Name="value" ColumnName="value" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="luntaiku_signal">
+      <EntityTypeMapping TypeName="ANDONModel.luntaiku_signal">
+        <MappingFragment StoreEntitySet="luntaiku_signal">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+          <ScalarProperty Name="value" ColumnName="value" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="station_info">
+      <EntityTypeMapping TypeName="ANDONModel.station_info">
+        <MappingFragment StoreEntitySet="station_info">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="ALARM_ID" ColumnName="ALARM_ID" />
+          <ScalarProperty Name="ALARM_MESSAGE" ColumnName="ALARM_MESSAGE" />
+          <ScalarProperty Name="STATION" ColumnName="STATION" />
+          <ScalarProperty Name="POSITION" ColumnName="POSITION" />
+          <ScalarProperty Name="PNODE_ID" ColumnName="PNODE_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AlarmClassView">
+      <EntityTypeMapping TypeName="ANDONModel.AlarmClassView">
+        <MappingFragment StoreEntitySet="AlarmClassView">
+          <ScalarProperty Name="value" ColumnName="value" />
+          <ScalarProperty Name="alarm_class" ColumnName="alarm_class" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="user_log">
+      <EntityTypeMapping TypeName="ANDONModel.user_log">
+        <MappingFragment StoreEntitySet="user_log">
+          <ScalarProperty Name="LogInTime" ColumnName="LogInTime" />
+          <ScalarProperty Name="PWD" ColumnName="PWD" />
+          <ScalarProperty Name="UID" ColumnName="UID" />
+          <ScalarProperty Name="UName" ColumnName="UName" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Alarm_edit">
+      <EntityTypeMapping TypeName="ANDONModel.Alarm_edit">
+        <MappingFragment StoreEntitySet="Alarm_edit">
+          <ScalarProperty Name="Division_of_respon" ColumnName="Division_of_respon" />
+          <ScalarProperty Name="generation_utc" ColumnName="generation_utc" />
+          <ScalarProperty Name="alarm_id" ColumnName="alarm_id" />
+          <ScalarProperty Name="Upload_flag" ColumnName="Upload_flag" />
+          <ScalarProperty Name="Alarm_area" ColumnName="Alarm_area" />
+          <ScalarProperty Name="Alarm_class" ColumnName="Alarm_class" />
+          <ScalarProperty Name="Delete_flag" ColumnName="Delete_flag" />
+          <ScalarProperty Name="Recorder" ColumnName="Recorder" />
+          <ScalarProperty Name="Station" ColumnName="Station" />
+          <ScalarProperty Name="Position" ColumnName="Position" />
+          <ScalarProperty Name="Responsible" ColumnName="Responsible" />
+          <ScalarProperty Name="Reason" ColumnName="Reason" />
+          <ScalarProperty Name="Duration" ColumnName="Duration" />
+          <ScalarProperty Name="End_time" ColumnName="End_time" />
+          <ScalarProperty Name="Start_time" ColumnName="Start_time" />
+          <ScalarProperty Name="Seq_number" ColumnName="Seq_number" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>
